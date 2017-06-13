@@ -6,13 +6,33 @@
       canvas {
         border: #333 10px solid;
       }
-      </style>
+    </style>
 </head>
 
-<body>
+  <body>
 
-<canvas></canvas>
+    <canvas id="myCanvas" width="550px" height="350px"></canvas>
 
-</body>
+    <script>
+    var canvas = document.querySelector("#myCanvas");
+    var context = canvas.getContext("2d");
+
+    // draw a diagonal line
+    context.moveTo(50, 50);
+    context.lineTo(450, 300);
+
+    // close the path
+    context.closePath();
+
+    // specify what our line looks like
+    context.lineWidth = 45;
+    context.strokeStyle = "steelblue";
+
+    // get the line drawn to the canvas
+    context.stroke();
+
+    </script>
+
+  </body>
 
 </html>

@@ -18,8 +18,57 @@
   <canvas id="myCanvas" width="550px" height="350px"></canvas>
 
   <script>
-    var canvas = document.querySelector("#myCanvas");
-    var context = canvas.getContext("2d");
+  var canvas = document.querySelector("#myCanvas");
+var context = canvas.getContext("2d");
+var canvasPosition = getPosition(canvas);
+
+canvas.addEventListener("mousemove", doSomething, false);
+
+// take into account page scrolls and resizes
+window.addEventListener("scroll", updatePosition, false);
+window.addEventListener("resize", updatePosition, false);
+
+function updatePosition() {
+canvasPosition = getPosition(canvas);
+}
+
+function doSomething(e) {
+// get the exact mouse X and Y coordinates
+var mouseX = e.clientX - canvasPosition.x;
+var mouseY = e.clientY - canvasPosition.y;
+
+// print it to the console
+console.log("The mouse position is: " + mouseX + ", " + mouseY);
+}
+
+
+    // Helper function to get an element's exact position
+function getPosition(el) {
+  var xPos = 0;
+  var yPos = 0;
+
+  while (el) {
+    if (el.tagName == "BODY") {
+      // deal with browser quirks with body/window/document and page scroll
+      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+      xPos += (el.offsetLeft - xScroll + el.clientLeft);
+      yPos += (el.offsetTop - yScroll + el.clientTop);
+    } else {
+      // for all other non-BODY elements
+      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+    }
+
+        el = el.offsetParent;
+      }
+      return {
+        x: xPos,
+        y: yPos
+      };
+    }
+
 
   </script>
 
